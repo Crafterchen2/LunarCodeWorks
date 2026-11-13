@@ -4,9 +4,11 @@
     <title>LunarByteWorks</title>
     <link href="general.css" rel="stylesheet"/>
     <script>
+        let currentDepartment = "";
+        let leftoverPath = "";
         window.onload = function() {
-            let department = window.location.pathname;
             {
+                let department = window.location.pathname;
                 let firstSlash = department.indexOf("/");
                 if (firstSlash === -1) {
                     navigation.navigate("/");
@@ -15,36 +17,55 @@
                 let lastSlash = department.lastIndexOf("/");
                 let end = department.length;
                 if (firstSlash !== lastSlash) end = lastSlash;
-                department = department.substring(firstSlash + 1, end).trim().toLowerCase();
+                currentDepartment = department.substring(firstSlash + 1, end).trim().toLowerCase();
+                leftoverPath = department.substring(end, department.length);
             }
+            console.log(currentDepartment + ": " + leftoverPath);
             let target = document.getElementById("include-html-root");
             const xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (this.readyState !== 4) return;
-                if (this.status === 200) target.innerHTML = this.responseText;
                 if (this.status === 404) target.innerHTML = "Department Not Found";
+                if (this.status === 200) {
+                    let html = document.createRange().createContextualFragment(this.responseText);
+                    let themes = html.querySelectorAll("theme");
+                    console.log("themes.length: " + themes.length);
+                    for (let i = 0; i < themes.length; i++) html.removeChild(themes[i]);
+                    let theme = themes[0];
+                    let glow = theme.getAttribute("glow");
+                    let brightness = theme.getAttribute("brightness");
+                    if (glow) document.body.style.setProperty("--glow", "var(--glow-" + glow + ")");
+                    if (brightness) {
+                        brightness = (brightness === "dark") ? "d" : "l";
+                        document.body.style.setProperty("--surface", "var(--" + brightness + "-surface)");
+                        document.body.style.setProperty("--on-surface", "var(--" + brightness + "-on-surface)");
+                        document.body.style.setProperty("--surface-container", "var(--" + brightness + "-surface-container)");
+                        document.body.style.setProperty("--outline-on-surface", "var(--" + brightness + "-outline-on-surface)");
+                    }
+                }
             }
-            xhr.open("GET", "departments/" + department + ".html", true);
+            xhr.open("GET", "lunarbyteworks.net/departments/" + currentDepartment + ".html", true);
             xhr.send();
-            switch (department) {
-                case "gaming": document.body.style.setProperty("--colorscheme", "var(--glow-orange)"); break;
-                case "highlevel": document.body.style.setProperty("--colorscheme", "var(--glow-purple)"); break;
-            }
         }
     </script>
 </head>
 <body style="
-    --colorscheme: var(--glow-yellow);
-    background-color: var(--d-surface);
-    color: var(--d-on-surface);
+    --glow: var(--glow-yellow);
+    --surface: var(--d-surface);
+    --on-surface: var(--d-on-surface);
+    --surface-container: var(--d-surface-container);
+    --outline-on-surface: var(--d-outline-on-surface);
+
+    background-color: var(--surface);
+    color: var(--on-surface);
 ">
 <header>
     <h1>LunarByteWorks</h1>
     <div style="
         height: 3px;
-        background-color: var(--colorscheme);
+        background-color: var(--glow);
     "></div>
 </header>
-<div id="include-html-root"></div>
+<div id="include-html-root"><h2>Loading...</h2></div>
 </body>
 </html>
