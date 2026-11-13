@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de" style="height: 100%;">
+<head>
+    <title>LunarByteWorks</title>
+    <link href="general.css" rel="stylesheet"/>
+</head>
+<script>
+    window.onload = function() {
+        let pathname = window.location.pathname;
+        document.body.style.setProperty("--colorscheme", pathname.substring(pathname.lastIndexOf("/") + 1, pathname.length));
+    }
+</script>
+<body style="
+    --colorscheme: var(--glow-yellow);
+    background-color: var(--d-surface);
+    color: var(--d-on-surface);
+">
+<header>
+    <h1>LunarByteWorks</h1>
+    <div style="
+        height: 3px;
+        background-color: var(--colorscheme);
+    "></div>
+</header>
+<h2>Welcome to the WIP landing page.</h2>
+</body>
+</html>

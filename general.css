@@ -1,0 +1,40 @@
+:root {
+    /*Colors*/
+    --black: #000000;
+    --gray-0: #0a0b0f;
+    --gray-1: #1a1b1f;
+    --gray-2: #2a2b2f;
+    --gray-3: #3a3b3f;
+    --gray-4: #4a4b4f;
+    --gray-5: #5a5b5f;
+    --gray-6: #6a6b6f;
+    --gray-7: #7a7b7f;
+    --gray-8: #8a8b8f;
+    --gray-9: #9a9b9f;
+    --gray-a: #aaabaf;
+    --gray-b: #babbbf;
+    --gray-c: #cacbcf;
+    --gray-d: #dadbdf;
+    --gray-e: #eaebef;
+    --gray-f: #fafbff;
+    --white: #ffffff;
+
+    --glow-red: #FF0D00;
+    --glow-orange: #FF6200;
+    --glow-yellow: #F2FF00;
+    --glow-lime: #00FF62;
+    --glow-cyan: #00F2FF;
+    --glow-blue: #0048FF;
+    --glow-purple: #8C00FF;
+    --glow-magenta: #FF00F2;
+    /*Dark Theme*/
+    --d-surface: var(--gray-0);
+    --d-on-surface: var(--gray-e);
+    --d-surface-container: var(--gray-1);
+    --d-outline-on-surface: var(--gray-4);
+    /*Light Theme*/
+    --l-surface: var(--gray-d);
+    --l-on-surface: var(--gray-0);
+    --l-surface-container: var(--gray-f);
+    --l-outline-on-surface: var(--gray-4);
+}
