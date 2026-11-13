@@ -3,13 +3,36 @@
 <head>
     <title>LunarByteWorks</title>
     <link href="general.css" rel="stylesheet"/>
+    <script>
+        window.onload = function() {
+            let department = window.location.pathname;
+            {
+                let firstSlash = department.indexOf("/");
+                if (firstSlash === -1) {
+                    navigation.navigate("/");
+                    return;
+                }
+                let lastSlash = department.lastIndexOf("/");
+                let end = department.length;
+                if (firstSlash !== lastSlash) end = lastSlash;
+                department = department.substring(firstSlash + 1, end).trim().toLowerCase();
+            }
+            let target = document.getElementById("include-html-root");
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState !== 4) return;
+                if (this.status === 200) target.innerHTML = this.responseText;
+                if (this.status === 404) target.innerHTML = "Department Not Found";
+            }
+            xhr.open("GET", "departments/" + department + ".html", true);
+            xhr.send();
+            switch (department) {
+                case "gaming": document.body.style.setProperty("--colorscheme", "var(--glow-orange)"); break;
+                case "highlevel": document.body.style.setProperty("--colorscheme", "var(--glow-purple)"); break;
+            }
+        }
+    </script>
 </head>
-<script>
-    window.onload = function() {
-        let pathname = window.location.pathname;
-        document.body.style.setProperty("--colorscheme", pathname.substring(pathname.lastIndexOf("/") + 1, pathname.length));
-    }
-</script>
 <body style="
     --colorscheme: var(--glow-yellow);
     background-color: var(--d-surface);
@@ -22,6 +45,6 @@
         background-color: var(--colorscheme);
     "></div>
 </header>
-<h2>Welcome to the WIP landing page.</h2>
+<div id="include-html-root"></div>
 </body>
 </html>
